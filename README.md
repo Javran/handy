@@ -1,4 +1,6 @@
 handy
 =====
 
-Some Haskell functions that I think is handy
+There are some handy functions not included in the standard library.
+
+Here I make a collection of them.
