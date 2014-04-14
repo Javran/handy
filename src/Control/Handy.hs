@@ -17,6 +17,7 @@ module Control.Handy
     , modRes
     , (.:)
     , concatMapM
+    , xor
     )
 where
 
@@ -53,3 +54,7 @@ modRes = (.)
 concatMapM :: (Monad m,T.Traversable t,Monad t) =>
               (a -> m (t b)) -> (t a -> m (t b))
 concatMapM = liftM join .: T.mapM
+
+-- | boolean exclusive or
+xor :: Bool -> Bool -> Bool
+xor = (/=)
