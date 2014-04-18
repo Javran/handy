@@ -18,6 +18,10 @@ module Control.Handy
     , (.:)
     , concatMapM
     , xor
+    , (<&>)
+    , toChurch
+    , churchSucc
+    , churchNums
     )
 where
 
@@ -58,3 +62,26 @@ concatMapM = liftM join .: T.mapM
 -- | boolean exclusive or
 xor :: Bool -> Bool -> Bool
 xor = (/=)
+
+-- | @flip fmap@ in disguise
+(<&>) :: Functor f => f a -> (a -> b) -> f b
+as <&> f = f <$> as
+
+type Church a = (a -> a) -> a -> a
+
+-- | non-negative numbers to Church numbers
+toChurch :: Int -> Church a
+toChurch = replicateEndoAux id
+    where
+        replicateEndoAux acc n f
+            | n == 0    = acc
+            | odd n     = replicateEndoAux (f. acc) (n-1) f
+            | otherwise = replicateEndoAux acc (n `div` 2) (f.f)
+
+-- | succ for church numbers
+churchSucc :: Church a -> Church a
+churchSucc n f x = f (n f x)
+
+-- | an infinite list of church number
+churchNums :: [Church a]
+churchNums = id : map churchSucc churchNums
