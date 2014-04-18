@@ -56,7 +56,7 @@ modRes = (.)
 
 -- | monadic "concatMap"
 concatMapM :: (Monad m,T.Traversable t,Monad t) =>
-              (a -> m (t b)) -> (t a -> m (t b))
+              (a -> m (t b)) -> t a -> m (t b)
 concatMapM = liftM join .: T.mapM
 
 -- | boolean exclusive or
@@ -71,17 +71,17 @@ type Church a = (a -> a) -> a -> a
 
 -- | non-negative numbers to Church numbers
 toChurch :: Int -> Church a
-toChurch = replicateEndoAux id
+toChurch = toChurchAux id
     where
-        replicateEndoAux acc n f
+        toChurchAux acc n f
             | n == 0    = acc
-            | odd n     = replicateEndoAux (f. acc) (n-1) f
-            | otherwise = replicateEndoAux acc (n `div` 2) (f.f)
+            | odd n     = toChurchAux (f. acc) (n-1) f
+            | otherwise = toChurchAux acc (n `div` 2) (f.f)
 
 -- | succ for church numbers
 churchSucc :: Church a -> Church a
 churchSucc n f x = f (n f x)
 
--- | an infinite list of church number
-churchNums :: [Church a]
-churchNums = id : map churchSucc churchNums
+-- | an infinite list of church numbers
+churchs :: [Church a]
+churchs = id : map churchSucc churchs
