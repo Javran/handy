@@ -14,7 +14,15 @@ module Control.Handy
     , fromMaybe
     , intercalate
     , intersperse
+    , isSuffixOf
+    , isPrefixOf
+    , nub
     , foldMap
+    , splitOn
+    , splitOneOf
+    , splitWhen
+    , endBy
+    , chunksOf
       -- new definitions
     , count
     , countNot
@@ -38,6 +46,7 @@ import Control.Monad
 import Data.Foldable
 import Data.Function
 import Data.List
+import Data.List.Split
 import Data.Maybe
 import Data.Monoid
 
