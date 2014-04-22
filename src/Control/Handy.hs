@@ -10,6 +10,8 @@ module Control.Handy
     , Endo(..)
     , isJust, isNothing
     , fromMaybe
+    , intercalate
+    , intersperse
       -- new definitions
     , count
     , countNot
@@ -21,7 +23,7 @@ module Control.Handy
     , (<&>)
     , toChurch
     , churchSucc
-    , churchNums
+    , churchs
     )
 where
 
@@ -31,6 +33,7 @@ import Control.Applicative
 import Control.Arrow
 import Control.Monad
 import Data.Function
+import Data.List
 import Data.Maybe
 import Data.Monoid
 
