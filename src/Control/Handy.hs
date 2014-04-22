@@ -8,10 +8,13 @@ module Control.Handy
     , (<>)
     , mconcat
     , Endo(..)
+    , Sum(..)
+    , Product(..)
     , isJust, isNothing
     , fromMaybe
     , intercalate
     , intersperse
+    , foldMap
       -- new definitions
     , count
     , countNot
@@ -32,6 +35,7 @@ import qualified Data.Traversable as T
 import Control.Applicative
 import Control.Arrow
 import Control.Monad
+import Data.Foldable
 import Data.Function
 import Data.List
 import Data.Maybe
