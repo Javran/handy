@@ -17,7 +17,7 @@ module Control.Handy
     , isSuffixOf
     , isPrefixOf
     , nub
-    , foldMap
+    , F.foldMap
     , splitOn
     , splitOneOf
     , splitWhen
@@ -43,7 +43,7 @@ import qualified Data.Traversable as T
 import Control.Applicative
 import Control.Arrow
 import Control.Monad
-import Data.Foldable
+import qualified Data.Foldable as F
 import Data.Function
 import Data.List
 import Data.List.Split
