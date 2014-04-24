@@ -36,6 +36,9 @@ module Control.Handy
     , churchSucc
     , churchs
     , theUniverse
+    , predMerge
+    , allTrueFor
+    , anyTrueFor
     )
 where
 
@@ -106,3 +109,18 @@ churchs = id : map churchSucc churchs
 -- | universe for types that possess both 'Enum' and `Bounded`
 theUniverse :: (Enum a, Bounded a) => [a]
 theUniverse = [minBound, maxBound]
+
+-- | merge predicates together, use the strategy
+--   given by its first argument
+predMerge :: ([Bool] -> Bool) -> [a -> Bool] -> a -> Bool
+predMerge mg ps x = mg (map ($ x) ps)
+
+-- | given a list of predicates,
+--   test if all the predicates hold
+allTrueFor :: [a -> Bool] -> a -> Bool
+allTrueFor = predMerge and
+
+-- | given a list of predicates,
+--   test if any of these predicates holds
+anyTrueFor :: [a -> Bool] -> a -> Bool
+anyTrueFor = predMerge or
