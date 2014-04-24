@@ -35,6 +35,7 @@ module Control.Handy
     , toChurch
     , churchSucc
     , churchs
+    , theUniverse
     )
 where
 
@@ -101,3 +102,7 @@ churchSucc n f x = f (n f x)
 -- | an infinite list of church numbers
 churchs :: [Church a]
 churchs = id : map churchSucc churchs
+
+-- | universe for types that possess both 'Enum' and `Bounded`
+theUniverse :: (Enum a, Bounded a) => [a]
+theUniverse = [minBound, maxBound]
