@@ -39,6 +39,7 @@ module Control.Handy
     , predMerge
     , allTrueFor
     , anyTrueFor
+    , takeLength
     )
 where
 
@@ -124,3 +125,8 @@ allTrueFor = predMerge and
 --   test if any of these predicates holds
 anyTrueFor :: [a -> Bool] -> a -> Bool
 anyTrueFor = predMerge or
+
+-- | `takeLength` is the same as `take . length`
+-- but without involving `length` function
+takeLength :: [a] -> [b] -> [b]
+takeLength = zipWith (curry snd)
