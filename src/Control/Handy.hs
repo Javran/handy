@@ -4,7 +4,7 @@ module Control.Handy
     , first, second
     , guard
     , on
-    , (<$>), (<*>)
+    , (<$>), (<*>), (*>), (<*)
     , (<>)
     , mconcat
     , Endo(..)
