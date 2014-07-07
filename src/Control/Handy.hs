@@ -40,6 +40,7 @@ module Control.Handy
     , allTrueFor
     , anyTrueFor
     , takeLength
+    , ifThenElse
     )
 where
 
@@ -130,3 +131,8 @@ anyTrueFor = predMerge or
 -- but without involving `length` function
 takeLength :: [a] -> [b] -> [b]
 takeLength = zipWith (curry snd)
+
+-- | if expression
+ifThenElse :: Bool -> a -> a -> a
+ifThenElse True x _ = x
+ifThenElse False _ y = y
