@@ -41,6 +41,7 @@ module Control.Handy
     , anyTrueFor
     , takeLength
     , ifThenElse
+    , scanM
     )
 where
 
@@ -136,3 +137,19 @@ takeLength = zipWith (curry snd)
 ifThenElse :: Bool -> a -> a -> a
 ifThenElse True x _ = x
 ifThenElse False _ y = y
+
+-- | 'scanM' is similar to 'foldM', but returns a list of successive
+-- reduced monadic values from the left:
+scanM :: Monad m => (a -> b -> m a) -> a -> [b] -> m [a]
+{-
+scanM _ seed [] = return [seed]
+scanM go seed (x:xs) = do
+    seed' <- go seed x
+    results <- scanM go seed' xs
+    return $ seed : result
+-}
+scanM go seed ls = liftM (seed:) $
+   case ls of
+     [] -> return []
+     (x:xs) -> do seed' <- go seed x
+                  scanM go seed' xs
