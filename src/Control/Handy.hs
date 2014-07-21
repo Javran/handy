@@ -42,6 +42,13 @@ module Control.Handy
     , takeLength
     , ifThenElse
     , scanM
+    , notNull
+    , lengthExceeds
+    , lengthAtLeast
+    , lengthIs
+    , listLengthCmp
+    , equalLength
+    , compareLength
     )
 where
 
@@ -153,3 +160,57 @@ scanM go seed ls = liftM (seed:) $
      [] -> return []
      (x:xs) -> do seed' <- go seed x
                   scanM go seed' xs
+
+-- copied from: http://haddocks.fpcomplete.com/fp/7.4.2/20130829-168/ghc/src/Util.html
+atLength :: ([a] -> b)
+         -> (Int -> b)
+         -> [a]
+         -> Int
+         -> b
+atLength atLenPred atEndPred ls n
+  | n < 0     = atEndPred n
+  | otherwise = go n ls
+  where
+    go n' [] = atEndPred n'
+    go 0 ls' = atLenPred ls'
+    go n' (_:xs) = go (n'-1) xs
+
+-- | the list is not null?
+notNull :: [a] -> Bool
+notNull = not . null
+
+-- | length of this list is greater than ...
+lengthExceeds :: [a] -> Int -> Bool
+-- ^ > (lengthExceeds xs n) = (length xs > n)
+lengthExceeds = atLength notNull (const False)
+
+-- | length of this list is at least ...
+lengthAtLeast :: [a] -> Int -> Bool
+lengthAtLeast = atLength notNull (== 0)
+
+-- | length of this list is exactly ...
+lengthIs :: [a] -> Int -> Bool
+lengthIs = atLength null (==0)
+
+-- | compare the length of this list with a number
+listLengthCmp :: [a] -> Int -> Ordering
+listLengthCmp = atLength atLen atEnd
+ where
+  atEnd 0      = EQ
+  atEnd x
+   | x > 0     = LT -- not yet seen 'n' elts, so list length is < n.
+   | otherwise = GT
+
+  atLen []     = EQ
+  atLen _      = GT
+
+-- | the length of two lists are equal?
+equalLength :: [a] -> [b] -> Bool
+equalLength = (== EQ) .: compareLength
+
+-- | compare the length of two lists
+compareLength :: [a] -> [b] -> Ordering
+compareLength []     []     = EQ
+compareLength (_:xs) (_:ys) = compareLength xs ys
+compareLength []     _      = LT
+compareLength _      []     = GT
