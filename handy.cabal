@@ -3,7 +3,7 @@
 
 name:                handy
 version:             0.1.0.0
-synopsis:            Some Haskell functions that I think are handy
+synopsis:            Some handy Haskell functions
 homepage:            https://github.com/Javran/handy
 license:             MIT
 license-file:        LICENSE

@@ -23,6 +23,7 @@ module Control.Handy
     , splitWhen
     , endBy
     , chunksOf
+    , Down(..)
       -- new definitions
     , count
     , countNot
@@ -49,6 +50,7 @@ module Control.Handy
     , listLengthCmp
     , equalLength
     , compareLength
+    , unDown
     )
 where
 
@@ -63,6 +65,7 @@ import Data.List
 import Data.List.Split
 import Data.Maybe
 import Data.Monoid
+import Data.Ord
 
 -- | count how many elements in a list meets the condition
 count :: (a -> Bool) -> [a] -> Int
@@ -214,3 +217,6 @@ compareLength []     []     = EQ
 compareLength (_:xs) (_:ys) = compareLength xs ys
 compareLength []     _      = LT
 compareLength _      []     = GT
+
+unDown :: Down a -> a
+unDown (Down v) = v
